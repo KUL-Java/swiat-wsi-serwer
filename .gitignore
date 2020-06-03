@@ -1,0 +1,43 @@
+HELP.md
+target/
+!**/src/main/**
+!**/src/test/**
+.mvn/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+mvnw
+mvnw.cmd
+swiat-wsi-serwer.iml
+
+### VS Code ###
+.vscode/
+
+# Intellij
+.idea/
+
+# Mac
+.DS_Store
+
+# Maven
+log/

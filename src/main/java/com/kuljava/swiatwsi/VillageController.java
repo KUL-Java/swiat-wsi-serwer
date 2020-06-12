@@ -6,18 +6,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/villages")
 public class VillageController {
 
-    @Autowired
-    private
-    VillageRepository villageRepository;
+  @Autowired private VillageRepository villageRepository;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getAll(){
-        StringBuilder stringBuilder = new StringBuilder();
-        villageRepository.findAll().forEach(x -> stringBuilder.append(x).append("\n"));
-        return stringBuilder.toString();
-    }
+  @GetMapping("/all")
+  public List<Village> getAll() {
+    return villageRepository.findAll();
+  }
 }

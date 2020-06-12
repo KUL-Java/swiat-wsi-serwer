@@ -13,13 +13,22 @@ import javax.persistence.*;
 @Table(name = "villages")
 public class Village {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    @Column
-    private String name;
-    @Column
-    private int x;
-    @Column
-    private int y;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(name = "name")
+  private String name;
+
+  @Column(name = "x")
+  private int x;
+
+  @Column(name = "y")
+  private int y;
+
+  public Village(String name, int x, int y) {
+    this.name = name;
+    this.x = x;
+    this.y = y;
+  }
 }

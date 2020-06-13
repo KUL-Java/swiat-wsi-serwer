@@ -10,24 +10,31 @@ import static java.lang.StrictMath.floor;
 
 @Service
 public class VillageService {
-  boolean going;
 
-  private VillageRepository villageRepository;
+  private final int VILLAGE_AREA_SIZE = 50;
+
+  private final VillageRepository villageRepository;
 
   public VillageService(VillageRepository villageRepository) {
     this.villageRepository = villageRepository;
   }
 
-  public Optional<Village> createVillageWithName(String name, int t) {
-    if (villageRepository.findByName(name).isPresent()) return Optional.empty();
-    return Optional.of(generateVillage(name, t));
+  public void createVillage(String name){
+    createVillageWithName(name).ifPresent(villageRepository::save);
   }
 
-  private Village generateVillage(String name, int t) {
+
+  public Optional<Village> createVillageWithName(String name) {
+    if (villageRepository.findByName(name).isPresent()) return Optional.empty();
+    return Optional.of(generateVillage(name));
+  }
+
+  private Village generateVillage(String name) {
+    //todo: wyjebac
     int[] randomCoords;
     do {
-
-      randomCoords = generateCoordinatesDifferentPattern(t);
+      int existingVillages = findExistingVillagesAmount();
+      randomCoords = generateCoordinatesDifferentPattern(existingVillages, VILLAGE_AREA_SIZE);
     } while (villageWithCoordinatesExists(randomCoords[0], randomCoords[1]));
 
     return new Village(name, randomCoords[0], randomCoords[1]);
@@ -42,28 +49,37 @@ public class VillageService {
     return new int[] {random.nextInt(maxSize), random.nextInt(maxSize)};
   }
 
-  private int[] generateCoordinatesDifferentPattern(int t) {
-    Random random = new Random();
-    final int villageAreaSize = 25;
-    int x = 0;
-    int y = 0;
-    double tIncrement = 0.025;
-    tIncrement = t * tIncrement;
-    float spiral_a = 8;
-    float spiral_b = 4;
-    int randomFactor = 20;
+  private int findExistingVillagesAmount() {
+    return (int) villageRepository.count();
+  }
 
-    x =
+  private int[] generateCoordinatesDifferentPattern(int maxSize, int villageNumber) {
+    Random random = new Random();
+    double tIncrement = 0.025;
+
+    //przesuniecie osi x
+    float horizontalOffset = 8;
+
+    //kat spirali
+    float spiralBendAngle = 1;
+    int randomFactor = 1;
+
+    tIncrement = villageNumber * tIncrement;
+    double interval  = villageNumber * tIncrement;
+
+    int centerOffset = maxSize / 2;
+
+    int x =
         (int)
             floor(
-                villageAreaSize / 2
-                    + ((spiral_a + spiral_b * t) * Math.cos(tIncrement))
+                    centerOffset
+                    + ((horizontalOffset + spiralBendAngle * interval) * Math.cos(interval))
                     + random.nextInt(randomFactor));
-    y =
+    int y =
         (int)
             floor(
-                villageAreaSize / 2
-                    + ((spiral_a + spiral_b * t) * Math.sin(tIncrement))
+                    centerOffset
+                    + ((horizontalOffset + spiralBendAngle * interval) * Math.sin(interval))
                     + random.nextInt(randomFactor));
 
     return new int[] {x, y};

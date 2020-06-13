@@ -19,17 +19,16 @@ public class SwiatWsiSerwerApplication {
   @Bean
   CommandLineRunner runner(VillageRepository villageRepository, VillageService villageService) {
     return (args) -> {
-      Village village = new Village("wies numer 1", 1, 1);
+      Village village = villageService.createVillageWithName("Krasnik ", 1).get();
 
       villageRepository.save(village);
 
-      Village village2 = new Village("wies numer 2", 3, 3);
+      Village village2 = villageService.createVillageWithName("Urzedow ", 2).get();
 
       villageRepository.save(village2);
 
-      Optional<Village> createdVillage = villageService.createVillageWithName("Niedrzwica");
+      Optional<Village> createdVillage = villageService.createVillageWithName("Niedrzwica", 3);
       createdVillage.ifPresent(villageRepository::save);
-
     };
   }
 }

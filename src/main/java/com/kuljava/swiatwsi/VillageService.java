@@ -5,13 +5,10 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.Random;
 
-import static java.lang.Integer.SIZE;
 import static java.lang.StrictMath.floor;
 
 @Service
 public class VillageService {
-
-  private final int VILLAGE_AREA_SIZE = 50;
 
   private final VillageRepository villageRepository;
 
@@ -19,28 +16,28 @@ public class VillageService {
     this.villageRepository = villageRepository;
   }
 
-  public void createVillage(String name){
+  void saveVillage(String name) {
     createVillageWithName(name).ifPresent(villageRepository::save);
   }
 
-
-  public Optional<Village> createVillageWithName(String name) {
+  Optional<Village> createVillageWithName(String name) {
     if (villageRepository.findByName(name).isPresent()) return Optional.empty();
-    return Optional.of(generateVillage(name));
+    return Optional.of(seekForFreeCoordinates(name));
   }
 
-  private Village generateVillage(String name) {
-    //todo: wyjebac
-    int[] randomCoords;
-    do {
-      int existingVillages = findExistingVillagesAmount();
-      randomCoords = generateCoordinatesDifferentPattern(existingVillages, VILLAGE_AREA_SIZE);
-    } while (villageWithCoordinatesExists(randomCoords[0], randomCoords[1]));
-
-    return new Village(name, randomCoords[0], randomCoords[1]);
+  private Village seekForFreeCoordinates(String name) {
+    int existingVillages = findExistingVillagesAmount();
+    int VILLAGE_AREA_SIZE = 50;
+    int[] randomCoordinates =
+        generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
+    while (checkIfVillageWithCoordinatesExists(randomCoordinates[0], randomCoordinates[1])) {
+      existingVillages = findExistingVillagesAmount();
+      randomCoordinates = generateCoordinatesDifferentPattern(existingVillages, VILLAGE_AREA_SIZE);
+    }
+    return new Village(name, randomCoordinates[0], randomCoordinates[1]);
   }
 
-  public boolean villageWithCoordinatesExists(int x, int y) {
+  private boolean checkIfVillageWithCoordinatesExists(int x, int y) {
     return villageRepository.findByXAndY(x, y).isPresent();
   }
 
@@ -57,28 +54,28 @@ public class VillageService {
     Random random = new Random();
     double tIncrement = 0.025;
 
-    //przesuniecie osi x
+    // przesuniecie osi x
     float horizontalOffset = 8;
 
-    //kat spirali
+    // kat spirali
     float spiralBendAngle = 1;
     int randomFactor = 1;
 
     tIncrement = villageNumber * tIncrement;
-    double interval  = villageNumber * tIncrement;
+    double interval = villageNumber * tIncrement;
 
     int centerOffset = maxSize / 2;
 
     int x =
         (int)
             floor(
-                    centerOffset
+                centerOffset
                     + ((horizontalOffset + spiralBendAngle * interval) * Math.cos(interval))
                     + random.nextInt(randomFactor));
     int y =
         (int)
             floor(
-                    centerOffset
+                centerOffset
                     + ((horizontalOffset + spiralBendAngle * interval) * Math.sin(interval))
                     + random.nextInt(randomFactor));
 

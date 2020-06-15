@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +33,7 @@ public class SwiatWsiSerwerApplication {
       Optional<Village> createdVillage = villageService.createVillageWithName("Niedrzwica");
       createdVillage.ifPresent(villageRepository::save);
 
-      dajNazw(20).forEach(villageService::createVillage);
+      dajNazw(20).forEach(villageService::saveVillage);
 
 
     };

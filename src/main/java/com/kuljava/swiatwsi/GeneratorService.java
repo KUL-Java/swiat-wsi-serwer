@@ -9,31 +9,34 @@ import static java.lang.StrictMath.floor;
 @Service
 class GeneratorService {
 
-  int[] generateCoordinatesDifferentPattern(int maxSize, int villageNumber) {
-    Random random = new Random();
-    double tIncrement = 0.02;
+  Point generateCoordinatesDifferentPattern(int maxSize, int villageNumber) {
+    double pointDensityFactor = 0.02;
 
     double horizontalOffset = 2;
 
     double spiralBendAngle = 2.25;
-    int randomFactor = 15;
-    double interval = villageNumber * tIncrement;
 
-    int centerOffset = (maxSize / 2) - 8;
+    double interval = villageNumber * pointDensityFactor;
+
+    int centerOffset = 8;
+    int centerTranslation = (maxSize / 2) - centerOffset;
+
+    Random random = new Random();
+    int randomFactor = 15;
 
     int x =
         (int)
             floor(
-                centerOffset
+                centerTranslation
                     + ((horizontalOffset + spiralBendAngle * interval) * Math.cos(interval))
                     + random.nextInt(randomFactor));
     int y =
         (int)
             floor(
-                centerOffset
+                centerTranslation
                     + ((horizontalOffset + spiralBendAngle * interval) * Math.sin(interval))
                     + random.nextInt(randomFactor));
 
-    return new int[] {x, y};
+    return new Point(x, y);
   }
 }

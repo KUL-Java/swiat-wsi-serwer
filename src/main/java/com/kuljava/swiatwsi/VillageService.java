@@ -3,6 +3,7 @@ package com.kuljava.swiatwsi;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -12,12 +13,18 @@ class VillageService {
   private final VillageRepository villageRepository;
   private final ValidateService validateService;
 
-  void saveVillage(String name) {
-    createVillageWithName(name).ifPresent(villageRepository::save);
+  public Village saveVillage(String name) throws VillagesAmountExceededException, VillageWithNameAlreadyExistsException {
+    Village createdVillage = createVillageWithName(name);
+    villageRepository.save(createdVillage);
+    return createdVillage;
   }
 
-  Optional<Village> createVillageWithName(String name) {
-    if (villageRepository.findByName(name).isPresent()) return Optional.empty();
-    return Optional.of(validateService.seekForFreeCoordinates(name));
+  private Village createVillageWithName(String name) throws VillagesAmountExceededException, VillageWithNameAlreadyExistsException {
+    if (villageRepository.findByName(name).isPresent()) throw new VillageWithNameAlreadyExistsException();
+    return validateService.seekForFreeCoordinates(name);
+  }
+
+  public List<Village> findAllVillages() {
+    return villageRepository.findAll();
   }
 }

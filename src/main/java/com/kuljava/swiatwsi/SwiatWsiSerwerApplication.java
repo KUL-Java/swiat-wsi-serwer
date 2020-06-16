@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -17,18 +19,15 @@ public class SwiatWsiSerwerApplication {
   }
 
   @Bean
-  CommandLineRunner runner(VillageRepository villageRepository, VillageService villageService) {
+  CommandLineRunner runner(VillageService villageService) {
     return (args) -> {
-      Village village = villageService.createVillageWithName("Krasnik").get();
-
-      villageRepository.save(village);
-
-      Village village2 = villageService.createVillageWithName("Urzedow ").get();
-
-      villageRepository.save(village2);
-
-      Optional<Village> createdVillage = villageService.createVillageWithName("Niedrzwica");
-      createdVillage.ifPresent(villageRepository::save);
+      for (int i = 1; i < 999; i++) {
+        try {
+          villageService.saveVillage("Niedrzwica " + i);
+        } catch (VillagesAmountExceededException | VillageWithNameAlreadyExistsException e) {
+          System.out.println("Niestety, " + e.getMessage());
+        }
+      }
     };
   }
 }

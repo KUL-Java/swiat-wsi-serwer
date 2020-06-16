@@ -1,14 +1,17 @@
-package com.kuljava.swiatwsi;
+package com.kuljava.swiatwsi.services;
 
+import com.kuljava.swiatwsi.world.Village;
+import com.kuljava.swiatwsi.world.VillageRepository;
+import com.kuljava.swiatwsi.exceptions.VillageWithNameAlreadyExistsException;
+import com.kuljava.swiatwsi.exceptions.VillagesAmountExceededException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-class VillageService {
+public class VillageService {
 
   private final VillageRepository villageRepository;
   private final ValidateService validateService;

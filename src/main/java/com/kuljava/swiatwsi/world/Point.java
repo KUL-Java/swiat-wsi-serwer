@@ -1,4 +1,4 @@
-package com.kuljava.swiatwsi;
+package com.kuljava.swiatwsi.world;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

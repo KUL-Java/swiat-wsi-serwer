@@ -1,4 +1,4 @@
-package com.kuljava.swiatwsi;
+package com.kuljava.swiatwsi.exceptions;
 
 public class VillageWithNameAlreadyExistsException extends Exception {
   public VillageWithNameAlreadyExistsException() {

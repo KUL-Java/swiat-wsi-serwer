@@ -1,4 +1,4 @@
-package com.kuljava.swiatwsi;
+package com.kuljava.swiatwsi.exceptions;
 
 public class VillagesAmountExceededException extends RuntimeException {
     public VillagesAmountExceededException() {

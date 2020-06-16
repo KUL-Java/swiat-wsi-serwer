@@ -1,13 +1,15 @@
-package com.kuljava.swiatwsi;
+package com.kuljava.swiatwsi.services;
 
+import com.kuljava.swiatwsi.world.Point;
+import com.kuljava.swiatwsi.world.Village;
+import com.kuljava.swiatwsi.world.VillageRepository;
+import com.kuljava.swiatwsi.exceptions.VillagesAmountExceededException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
-class ValidateService {
+public class ValidateService {
 
   private final int MAXIMUM_VILLAGES_AMOUNT = 1000;
   private final int VILLAGE_AREA_SIZE = 100;

@@ -7,17 +7,20 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 class ValidateService {
 
+  private final int VILLAGE_AREA_SIZE = 100;
+
   private VillageRepository villageRepository;
   private GeneratorService generatorService;
 
   Village seekForFreeCoordinates(String name) {
     int existingVillages = findExistingVillagesAmount();
-    int VILLAGE_AREA_SIZE = 50;
+
     int[] randomCoordinates =
         generatorService.generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
     while (checkIfVillageWithCoordinatesExists(randomCoordinates[0], randomCoordinates[1])) {
       existingVillages = findExistingVillagesAmount();
-      randomCoordinates = generatorService.generateCoordinatesDifferentPattern(existingVillages, VILLAGE_AREA_SIZE);
+      randomCoordinates =
+          generatorService.generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
     }
     return new Village(name, randomCoordinates[0], randomCoordinates[1]);
   }

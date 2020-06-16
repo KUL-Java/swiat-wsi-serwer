@@ -20,7 +20,11 @@ public class SwiatWsiSerwerApplication {
   }
 
   @Bean
-  CommandLineRunner runner(VillageRepository villageRepository, VillageService villageService) {
+  CommandLineRunner runner(
+      VillageRepository villageRepository,
+      VillageService villageService,
+      ValidateService validateService,
+      GeneratorService generatorService) {
     return (args) -> {
       Village village = villageService.createVillageWithName("Krasnik").get();
 
@@ -33,13 +37,11 @@ public class SwiatWsiSerwerApplication {
       Optional<Village> createdVillage = villageService.createVillageWithName("Niedrzwica");
       createdVillage.ifPresent(villageRepository::save);
 
-      dajNazw(20).forEach(villageService::saveVillage);
-
-
+      dajNazw(1000).forEach(villageService::saveVillage);
     };
   }
 
-  private List<String> dajNazw(int ile){
+  private List<String> dajNazw(int ile) {
     List<String> lista = new ArrayList<>();
 
     for (int i = 0; i < ile; i++) {
@@ -49,7 +51,7 @@ public class SwiatWsiSerwerApplication {
     return lista;
   }
 
-  private String dajNazwe(){
+  private String dajNazwe() {
     return String.valueOf(new Random().nextDouble());
   }
 }

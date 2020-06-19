@@ -16,14 +16,15 @@ public class VillageService {
   private final VillageRepository villageRepository;
   private final ValidateService validateService;
 
-  public Village saveVillage(String name) throws VillagesAmountExceededException, VillageWithNameAlreadyExistsException {
+  public Village saveVillage(String name) {
     Village createdVillage = createVillageWithName(name);
     villageRepository.save(createdVillage);
     return createdVillage;
   }
 
-  private Village createVillageWithName(String name) throws VillagesAmountExceededException, VillageWithNameAlreadyExistsException {
-    if (villageRepository.findByName(name).isPresent()) throw new VillageWithNameAlreadyExistsException();
+  private Village createVillageWithName(String name) {
+    if (villageRepository.findByName(name).isPresent())
+      throw new VillageWithNameAlreadyExistsException();
     return validateService.seekForFreeCoordinates(name);
   }
 

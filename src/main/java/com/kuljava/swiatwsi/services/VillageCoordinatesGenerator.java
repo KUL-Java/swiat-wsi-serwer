@@ -1,14 +1,15 @@
 package com.kuljava.swiatwsi.services;
 
 import com.kuljava.swiatwsi.world.Point;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 import static java.lang.StrictMath.floor;
 
-@Service
-public class GeneratorService {
+@Component
+public class VillageCoordinatesGenerator {
 
   Point generateCoordinatesDifferentPattern(int maxSize, int villageNumber) {
     double pointDensityFactor = 0.02;

@@ -15,20 +15,20 @@ public class ValidateService {
   private final int VILLAGE_AREA_SIZE = 100;
 
   private VillageRepository villageRepository;
-  private GeneratorService generatorService;
+  private VillageCoordinatesGenerator villageCoordinatesGenerator;
 
-  Village seekForFreeCoordinates(String name) throws VillagesAmountExceededException {
+  Village seekForFreeCoordinates(String name) {
     int existingVillages = findExistingVillagesAmount();
 
     if(existingVillages > MAXIMUM_VILLAGES_AMOUNT) throw new VillagesAmountExceededException();
 
     Point randomCoordinates =
-        generatorService.generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
+        villageCoordinatesGenerator.generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
 
     while (checkIfVillageWithCoordinatesExists(randomCoordinates)) {
       existingVillages = findExistingVillagesAmount();
       randomCoordinates =
-          generatorService.generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
+          villageCoordinatesGenerator.generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
     }
 
     return new Village(name, randomCoordinates.getX(), randomCoordinates.getY());

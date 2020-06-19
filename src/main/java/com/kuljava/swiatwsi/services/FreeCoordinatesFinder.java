@@ -9,32 +9,24 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class ValidateService {
+public class FreeCoordinatesFinder {
 
   private final int MAXIMUM_VILLAGES_AMOUNT = 1000;
-  private final int VILLAGE_AREA_SIZE = 100;
 
   private VillageRepository villageRepository;
   private VillageCoordinatesGenerator villageCoordinatesGenerator;
 
-  Village seekForFreeCoordinates(String name) {
+  public Village createNextVillage(String name) {
     int existingVillages = findExistingVillagesAmount();
 
-    if(existingVillages > MAXIMUM_VILLAGES_AMOUNT) throw new VillagesAmountExceededException();
+    if (existingVillages > MAXIMUM_VILLAGES_AMOUNT) throw new VillagesAmountExceededException();
 
-    Point randomCoordinates =
-        villageCoordinatesGenerator.generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
-
-    while (checkIfVillageWithCoordinatesExists(randomCoordinates)) {
-      existingVillages = findExistingVillagesAmount();
-      randomCoordinates =
-          villageCoordinatesGenerator.generateCoordinatesDifferentPattern(VILLAGE_AREA_SIZE, existingVillages);
-    }
+    Point randomCoordinates = findNextFreeSpot();
 
     return new Village(name, randomCoordinates.getX(), randomCoordinates.getY());
   }
 
-  private boolean checkIfVillageWithCoordinatesExists(Point coordinates) {
+  private boolean isVillageWithCoordinatesExisting(Point coordinates) {
     return villageRepository.findByXAndY(coordinates.getX(), coordinates.getY()).isPresent();
   }
 
@@ -42,4 +34,15 @@ public class ValidateService {
     return (int) villageRepository.count();
   }
 
+  private Point findNextFreeSpot() {
+    int existingVillages = findExistingVillagesAmount();
+    Point randomCoordinates =
+        villageCoordinatesGenerator.generateSpiralCoordinates(existingVillages);
+
+    while (isVillageWithCoordinatesExisting(randomCoordinates)) {
+      existingVillages = findExistingVillagesAmount();
+      randomCoordinates = villageCoordinatesGenerator.generateSpiralCoordinates(existingVillages);
+    }
+    return randomCoordinates;
+  }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class FreeCoordinatesFinder {
+public class FreeCoordinatesFindersService {
 
   private final int MAXIMUM_VILLAGES_AMOUNT = 1000;
 

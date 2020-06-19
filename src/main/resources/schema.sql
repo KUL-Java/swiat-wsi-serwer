@@ -1,11 +1,11 @@
-CREATE SCHEMA swiat_wsi;
-USE swiat_wsi;
+DROP SCHEMA IF EXISTS swiatwsi;
+CREATE SCHEMA swiatwsi;
 
-CREATE TABLE villages
+CREATE TABLE if not exists villages
 (
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(100),
-  x INT,
-  y INT,
-  PRIMARY KEY (id)
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(60) NOT NULL,
+    x    INT         NOT NULL,
+    y    INT         NOT NULL
 );
+

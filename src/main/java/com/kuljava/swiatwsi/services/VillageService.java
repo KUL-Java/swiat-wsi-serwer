@@ -1,8 +1,8 @@
 package com.kuljava.swiatwsi.services;
 
+import com.kuljava.swiatwsi.exceptions.VillageWithNameAlreadyExistsException;
 import com.kuljava.swiatwsi.world.Village;
 import com.kuljava.swiatwsi.world.VillageRepository;
-import com.kuljava.swiatwsi.exceptions.VillageWithNameAlreadyExistsException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class VillageService {
 
   private final VillageRepository villageRepository;
-  private final FreeCoordinatesFinder freeCoordinatesFinder;
+  private final FreeCoordinatesFindersService freeCoordinatesFindersService;
 
   public Village saveVillage(String name) {
     Village createdVillage = createVillageWithName(name);
@@ -24,7 +24,7 @@ public class VillageService {
   private Village createVillageWithName(String name) {
     if (villageRepository.findByName(name).isPresent())
       throw new VillageWithNameAlreadyExistsException();
-    return freeCoordinatesFinder.createNextVillage(name);
+    return freeCoordinatesFindersService.createNextVillage(name);
   }
 
   public List<Village> findAllVillages() {

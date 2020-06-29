@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface VillageRepository extends JpaRepository<Village, Long> {
   Optional<Village> findByName(String name);
 
-  Optional<Village> findByXAndY(int x, int y);
+  //Optional<Village> findByXAndY(int x, int y);
 
 }

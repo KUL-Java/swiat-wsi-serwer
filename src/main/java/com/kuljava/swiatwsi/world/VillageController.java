@@ -22,12 +22,12 @@ public class VillageController {
     this.villageService = villageService;
   }
 
-  @GetMapping("/all")
+  @GetMapping()
   public List<Village> getAll() {
     return villageService.findAllVillages();
   }
 
-  @PostMapping("/add")
+  @PostMapping()
   public Village addVillage(@RequestParam String name) {
     try {
       return villageService.saveVillage(name);

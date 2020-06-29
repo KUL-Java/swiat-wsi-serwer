@@ -16,18 +16,14 @@ public class Village {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "name")
-  private String name;
+  @Column private String name;
 
-  @Column(name = "x")
-  private int x;
 
-  @Column(name = "y")
-  private int y;
+  @OneToOne(cascade = CascadeType.ALL)
+  private Point point;
 
-  public Village(String name, int x, int y) {
+  public Village(String name, Point point) {
     this.name = name;
-    this.x = x;
-    this.y = y;
+    this.point = point;
   }
 }

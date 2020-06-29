@@ -11,34 +11,38 @@ import static java.lang.StrictMath.floor;
 public class VillageCoordinatesGenerator {
   private final int VILLAGE_AREA_SIZE = 100;
 
+  private final double horizontalOffset = 2;
+
+  private final double spiralBendAngle = 2.25;
+
+  private final int centerOffset = 8;
+  private final int centerTranslation = (VILLAGE_AREA_SIZE / 2) - centerOffset;
+
+  private Random random = new Random();
+  private final int randomFactor = 15;
+
   Point generateSpiralCoordinates(int villageNumber) {
     double pointDensityFactor = 0.02;
+    final double interval = villageNumber * pointDensityFactor;
 
-    double horizontalOffset = 2;
+    return new Point(generateXCoordinate(interval), generateYCoordinate(interval));
+  }
 
-    double spiralBendAngle = 2.25;
+  private int generateXCoordinate(double interval) {
 
-    double interval = villageNumber * pointDensityFactor;
+    return (int)
+        floor(
+            centerTranslation
+                + ((horizontalOffset + spiralBendAngle * interval) * Math.cos(interval))
+                + random.nextInt(randomFactor));
+  }
 
-    int centerOffset = 8;
-    int centerTranslation = (VILLAGE_AREA_SIZE / 2) - centerOffset;
+  private int generateYCoordinate(double interval) {
 
-    Random random = new Random();
-    int randomFactor = 15;
-
-    int x =
-        (int)
-            floor(
-                centerTranslation
-                    + ((horizontalOffset + spiralBendAngle * interval) * Math.cos(interval))
-                    + random.nextInt(randomFactor));
-    int y =
-        (int)
-            floor(
-                centerTranslation
-                    + ((horizontalOffset + spiralBendAngle * interval) * Math.sin(interval))
-                    + random.nextInt(randomFactor));
-
-    return new Point(x, y);
+    return (int)
+        floor(
+            centerTranslation
+                + ((horizontalOffset + spiralBendAngle * interval) * Math.sin(interval))
+                + random.nextInt(randomFactor));
   }
 }

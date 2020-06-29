@@ -4,45 +4,59 @@ import com.kuljava.swiatwsi.world.Point;
 import com.kuljava.swiatwsi.world.Village;
 import com.kuljava.swiatwsi.world.VillageRepository;
 import com.kuljava.swiatwsi.exceptions.VillagesAmountExceededException;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
-@AllArgsConstructor
 public class FreeCoordinatesFinder {
 
   private final int MAXIMUM_VILLAGES_AMOUNT = 1000;
-
   private VillageRepository villageRepository;
   private VillageCoordinatesGenerator villageCoordinatesGenerator;
+  private final List<Point> occupiedCoordinates;
 
-  public Village createNextVillage(String name) {
-    int existingVillages = findExistingVillagesAmount();
+  @Autowired
+  public FreeCoordinatesFinder(
+      VillageRepository villageRepository,
+      VillageCoordinatesGenerator villageCoordinatesGenerator) {
+    this.villageRepository = villageRepository;
+    this.villageCoordinatesGenerator = villageCoordinatesGenerator;
+    this.occupiedCoordinates = fetchFreeCoordinatesToMemory();
+  }
 
-    if (existingVillages > MAXIMUM_VILLAGES_AMOUNT) throw new VillagesAmountExceededException();
+  Village createNextVillage(String name) {
+    int existingVillages = occupiedCoordinates.size();
+
+    if (existingVillages >= MAXIMUM_VILLAGES_AMOUNT) {
+      throw new VillagesAmountExceededException();
+    }
 
     Point randomCoordinates = findNextFreeSpot();
+    occupiedCoordinates.add(randomCoordinates);
 
-    return new Village(name, randomCoordinates.getX(), randomCoordinates.getY());
-  }
-
-  private boolean isVillageWithCoordinatesExisting(Point coordinates) {
-    return villageRepository.findByXAndY(coordinates.getX(), coordinates.getY()).isPresent();
-  }
-
-  private int findExistingVillagesAmount() {
-    return (int) villageRepository.count();
+    return new Village(name, randomCoordinates);
   }
 
   private Point findNextFreeSpot() {
-    int existingVillages = findExistingVillagesAmount();
+    int existingVillages = occupiedCoordinates.size();
     Point randomCoordinates =
         villageCoordinatesGenerator.generateSpiralCoordinates(existingVillages);
 
-    while (isVillageWithCoordinatesExisting(randomCoordinates)) {
-      existingVillages = findExistingVillagesAmount();
+    while (areCoordinatesTaken(randomCoordinates)) {
+      existingVillages++;
       randomCoordinates = villageCoordinatesGenerator.generateSpiralCoordinates(existingVillages);
     }
     return randomCoordinates;
+  }
+
+  private boolean areCoordinatesTaken(Point coordinates) {
+    return occupiedCoordinates.contains(coordinates);
+  }
+
+  private List<Point> fetchFreeCoordinatesToMemory() {
+    return villageRepository.findAll().stream().map(Village::getPoint).collect(Collectors.toList());
   }
 }

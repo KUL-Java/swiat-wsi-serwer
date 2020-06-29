@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FreeCoordinatesFinder {
+public class FreeCoordinatesFinderService {
 
   private final int MAXIMUM_VILLAGES_AMOUNT = 1000;
   private VillageRepository villageRepository;
@@ -19,7 +19,7 @@ public class FreeCoordinatesFinder {
   private final List<Point> occupiedCoordinates;
 
   @Autowired
-  public FreeCoordinatesFinder(
+  public FreeCoordinatesFinderService(
       VillageRepository villageRepository,
       VillageCoordinatesGenerator villageCoordinatesGenerator) {
     this.villageRepository = villageRepository;

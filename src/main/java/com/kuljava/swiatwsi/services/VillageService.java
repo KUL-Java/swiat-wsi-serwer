@@ -13,7 +13,7 @@ import java.util.List;
 public class VillageService {
 
   private final VillageRepository villageRepository;
-  private final FreeCoordinatesFindersService freeCoordinatesFindersService;
+  private final FreeCoordinatesFinderService freeCoordinatesFindersService;
 
   public Village saveVillage(String name) {
     Village createdVillage = createVillageWithName(name);

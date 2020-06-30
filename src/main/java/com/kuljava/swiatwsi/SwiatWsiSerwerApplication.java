@@ -1,6 +1,5 @@
 package com.kuljava.swiatwsi;
 
-import com.kuljava.swiatwsi.exceptions.VillageWithNameAlreadyExistsException;
 import com.kuljava.swiatwsi.exceptions.VillagesAmountExceededException;
 import com.kuljava.swiatwsi.services.VillageService;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +19,7 @@ public class SwiatWsiSerwerApplication {
       for (int i = 1; i < 999; i++) {
         try {
           villageService.saveVillage("Niedrzwica " + i);
-        } catch (VillagesAmountExceededException | VillageWithNameAlreadyExistsException e) {
+        } catch (VillagesAmountExceededException e) {
           System.out.println("Niestety, " + e.getMessage());
         }
       }

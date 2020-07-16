@@ -43,11 +43,11 @@ public class FreeCoordinatesFinderService {
   private Point findNextFreeSpot() {
     int existingVillages = occupiedCoordinates.size();
     Point randomCoordinates =
-        villageCoordinatesGenerator.generateSpiralCoordinates(existingVillages);
+        villageCoordinatesGenerator.generateCoordinates(existingVillages);
 
     while (areCoordinatesTaken(randomCoordinates)) {
       existingVillages++;
-      randomCoordinates = villageCoordinatesGenerator.generateSpiralCoordinates(existingVillages);
+      randomCoordinates = villageCoordinatesGenerator.generateCoordinates(existingVillages);
     }
     return randomCoordinates;
   }

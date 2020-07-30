@@ -1,5 +1,6 @@
 package com.kuljava.swiatwsi.world;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,11 +17,14 @@ public class Point {
     this.y = y;
   }
 
+  @JsonIgnore
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   @Column
   private int x;
+
   @Column
   private int y;
 }

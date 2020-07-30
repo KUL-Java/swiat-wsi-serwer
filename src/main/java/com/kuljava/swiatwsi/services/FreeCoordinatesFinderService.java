@@ -57,6 +57,6 @@ public class FreeCoordinatesFinderService {
   }
 
   private List<Point> fetchFreeCoordinatesToMemory() {
-    return villageRepository.findAll().stream().map(Village::getPoint).collect(Collectors.toList());
+    return villageRepository.findAll().stream().map(Village::getLocation).collect(Collectors.toList());
   }
 }

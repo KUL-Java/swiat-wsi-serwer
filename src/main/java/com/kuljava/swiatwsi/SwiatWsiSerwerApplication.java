@@ -19,7 +19,13 @@ public class SwiatWsiSerwerApplication {
     user.setUserName("dandoo");
     user.setPassword("password");
     user.setEmail("damian.michalak@gmail.com");
-    userService.addWithDefaultRole(user); // this lines will create default user
+    userService.addWithDefaultRole(user);
+
+    User user2 = new User();
+    user2.setUserName("michal");
+    user2.setPassword("password");
+    user2.setEmail("kolothej@gmail.com");
+    userService.addWithDefaultRole(user2);
   }
 
   @Bean

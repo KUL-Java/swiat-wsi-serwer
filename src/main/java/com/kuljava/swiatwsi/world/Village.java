@@ -1,5 +1,6 @@
 package com.kuljava.swiatwsi.world;
 
+import com.kuljava.swiatwsi.security.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,14 +20,17 @@ public class Village {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column private String name;
-
+  @Column
+  private String name;
 
   @OneToOne(cascade = CascadeType.ALL)
-  private Point point;
+  private Point location;
 
-  public Village(String name, Point point) {
+  @OneToOne
+  private User owner;
+
+  public Village(String name, Point location) {
     this.name = name;
-    this.point = point;
+    this.location = location;
   }
 }

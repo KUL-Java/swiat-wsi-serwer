@@ -1,12 +1,14 @@
 package com.kuljava.swiatwsi.services;
 
 import com.kuljava.swiatwsi.world.Point;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
 import static java.lang.StrictMath.floor;
 
+@Primary
 @Component
 public class SpiralVillageCoordinatesGenerator implements VillageCoordinatesGenerator {
   private final int VILLAGE_AREA_SIZE = 100;

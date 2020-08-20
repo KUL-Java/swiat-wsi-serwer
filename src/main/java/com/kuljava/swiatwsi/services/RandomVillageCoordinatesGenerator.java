@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
-@Primary
+
 @Component
 public class RandomVillageCoordinatesGenerator implements VillageCoordinatesGenerator {
 

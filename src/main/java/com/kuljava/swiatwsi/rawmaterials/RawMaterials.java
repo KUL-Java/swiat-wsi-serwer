@@ -20,8 +20,11 @@ public class RawMaterials implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(name = "wood_quantity")
     private Long woodQuantity;
+    @Column(name = "clay_quantity")
     private Long clayQuantity;
+    @Column(name = "iron_quantity")
     private Long ironQuantity;
 
     @OneToOne(mappedBy = "rawMaterials")

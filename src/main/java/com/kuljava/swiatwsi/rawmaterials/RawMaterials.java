@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Table(name = "raw_materials")
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
 public class RawMaterials implements Serializable {
 
@@ -27,6 +26,9 @@ public class RawMaterials implements Serializable {
     @Column(name = "iron_quantity")
     private Long ironQuantity;
 
-    @OneToOne(mappedBy = "rawMaterials")
-    Village village;
+    public RawMaterials() {
+        this.woodQuantity = 0l;
+        this.clayQuantity = 0l;
+        this.ironQuantity = 0l;
+    }
 }

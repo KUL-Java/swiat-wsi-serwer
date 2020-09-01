@@ -1,7 +1,7 @@
 package com.kuljava.swiatwsi.rawmaterials;
 
-import com.kuljava.swiatwsi.rawmaterials.RawMaterialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,6 +20,7 @@ public class Scheduler {
     @Autowired
     RawMaterialsRepository repository;
 
+    @Scheduled(fixedRateString = "${rawmaterials.scheduler.fixedRate}")
     public void increaseQuantities() {
         repository.increaseAll(woodIncrease, clayIncrease, ironIncrease);
     }

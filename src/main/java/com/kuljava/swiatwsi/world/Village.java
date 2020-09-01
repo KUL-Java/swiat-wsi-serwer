@@ -27,7 +27,6 @@ public class Village {
   private Point point;
 
   @OneToOne
-  @JoinColumn(name = "id_materials")
   RawMaterials rawMaterials;
 
   public Village(String name, Point point) {

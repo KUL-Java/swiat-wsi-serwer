@@ -23,7 +23,7 @@ public class RawMaterialsService {
 
   public void createRawMaterialsForVillage(Village village) {
     if (village != null) {
-      RawMaterials rawMaterials = new RawMaterials();
+      RawMaterials rawMaterials = new RawMaterials(10L, 10L, 10L);
       rawMaterialsRepository.saveAndFlush(rawMaterials);
       village.setRawMaterials(rawMaterials);
       villageRepository.saveAndFlush(village);

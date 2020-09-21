@@ -15,9 +15,9 @@ public class RawMaterials implements Serializable {
     private Long clayQuantity;
     private Long ironQuantity;
 
-    public RawMaterials() {
-        this.woodQuantity = 0L;
-        this.clayQuantity = 0L;
-        this.ironQuantity = 0L;
+    public RawMaterials(Long woodQuantity, Long clayQuantity, Long ironQuantity) {
+        this.woodQuantity = woodQuantity;
+        this.clayQuantity = clayQuantity;
+        this.ironQuantity = ironQuantity;
     }
 }

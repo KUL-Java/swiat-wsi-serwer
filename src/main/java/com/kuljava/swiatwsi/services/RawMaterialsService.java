@@ -11,22 +11,23 @@ import java.util.Optional;
 
 @Service
 public class RawMaterialsService {
-  @Autowired VillageRepository villageRepository;
-  @Autowired RawMaterialsRepository rawMaterialsRepository;
+    @Autowired
+    VillageRepository villageRepository;
+    @Autowired
+    RawMaterialsRepository rawMaterialsRepository;
 
-  public Optional<RawMaterials> getRawMaterialsByVillageId(Long id) {
-    Optional<Village> village = villageRepository.findById(id);
-    return village.isEmpty()
-        ? Optional.empty()
-        : Optional.ofNullable(village.get().getRawMaterials());
-  }
-
-  public void createRawMaterialsForVillage(Village village) {
-    if (village != null) {
-      RawMaterials rawMaterials = new RawMaterials(10L, 10L, 10L);
-      rawMaterialsRepository.saveAndFlush(rawMaterials);
-      village.setRawMaterials(rawMaterials);
-      villageRepository.saveAndFlush(village);
+    public Optional<RawMaterials> getRawMaterialsByVillageId(Long id) {
+        return villageRepository.findById(id).map(Village::getRawMaterials);
     }
-  }
+
+    public void createRawMaterialsForVillage(Optional<Village> villageOptional) {
+        villageOptional.ifPresent(
+                village -> {
+                    RawMaterials rawMaterials = new RawMaterials(10L, 10L, 10L);
+                    rawMaterialsRepository.saveAndFlush(rawMaterials);
+                    village.setRawMaterials(rawMaterials);
+                    villageRepository.saveAndFlush(village);
+                }
+        );
+    }
 }

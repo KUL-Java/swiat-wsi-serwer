@@ -18,7 +18,7 @@ public class RawMaterialsScheduler {
     private long ironIncrease;
 
     @Scheduled(fixedRateString = "${rawmaterials.scheduler.fixedRate}")
-    public void increaseQuantities() {
+    public void increaseQuantitiesByDefaultValue() {
         repository.increaseAll(woodIncrease, clayIncrease, ironIncrease);
     }
 }

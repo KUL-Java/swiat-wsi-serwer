@@ -26,7 +26,7 @@ public class Village {
   @OneToOne(cascade = CascadeType.ALL)
   private Point point;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   RawMaterials rawMaterials;
 
   public Village(String name, Point point) {

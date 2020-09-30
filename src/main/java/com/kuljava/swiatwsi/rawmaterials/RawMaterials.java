@@ -1,5 +1,6 @@
 package com.kuljava.swiatwsi.rawmaterials;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 @Entity
 @Setter
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RawMaterials implements Serializable {
 
     @Id

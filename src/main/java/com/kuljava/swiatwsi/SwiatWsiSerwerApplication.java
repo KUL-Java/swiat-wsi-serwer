@@ -6,14 +6,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
+@EnableScheduling
 public class SwiatWsiSerwerApplication {
 
   public static void main(String[] args) {
-    ConfigurableApplicationContext run = SpringApplication.run(SwiatWsiSerwerApplication.class, args);
+    ConfigurableApplicationContext run =
+        SpringApplication.run(SwiatWsiSerwerApplication.class, args);
     UserService userService = run.getBean(UserService.class);
     User user = new User();
     user.setUserName("dandoo");
@@ -26,6 +29,4 @@ public class SwiatWsiSerwerApplication {
   public PasswordEncoder passwordEncoder() {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
-
-
 }

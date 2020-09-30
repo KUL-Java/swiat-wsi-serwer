@@ -1,5 +1,6 @@
 package com.kuljava.swiatwsi.world;
 
+import com.kuljava.swiatwsi.rawmaterials.RawMaterials;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,9 @@ public class Village {
 
   @OneToOne(cascade = CascadeType.ALL)
   private Point point;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  RawMaterials rawMaterials;
 
   public Village(String name, Point point) {
     this.name = name;

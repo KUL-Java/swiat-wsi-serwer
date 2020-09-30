@@ -1,33 +1,25 @@
 package com.kuljava.swiatwsi.rawmaterials;
 
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-@ConfigurationProperties("rawmaterials.scheduler")
-@Setter
+@AllArgsConstructor
 public class RawMaterialsScheduler {
 
-    private RawMaterialsRepository repository;
-    private long woodIncrease;
-    private long clayIncrease;
-    private long ironIncrease;
-
-    public RawMaterialsScheduler(RawMaterialsRepository repository) {
-        this.repository = repository;
-    }
+    private final RawMaterialsRepository repository;
+    private final RawMaterialsDTO dto;
 
     @Scheduled(fixedRateString = "${rawmaterials.scheduler.fixedRate}")
     public void increaseQuantitiesByDefaultValue() {
         List<RawMaterials> rawMaterialsList = repository.findAll();
         rawMaterialsList.forEach(r -> {
-            r.setIronQuantity(r.getIronQuantity() + ironIncrease);
-            r.setWoodQuantity(r.getWoodQuantity() + woodIncrease);
-            r.setClayQuantity(r.getClayQuantity() + clayIncrease);
+            r.setIronQuantity(r.getIronQuantity() + dto.getIronIncrease());
+            r.setWoodQuantity(r.getWoodQuantity() + dto.getWoodIncrease());
+            r.setClayQuantity(r.getClayQuantity() + dto.getClayIncrease());
         });
         repository.saveAll(rawMaterialsList);
     }

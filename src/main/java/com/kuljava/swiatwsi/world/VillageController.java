@@ -5,17 +5,17 @@ import com.kuljava.swiatwsi.services.VillageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/villages")
 public class VillageController {
 
-  private VillageService villageService;
+  private final VillageService villageService;
 
   @Autowired
   public VillageController(VillageService villageService) {
@@ -23,8 +23,12 @@ public class VillageController {
   }
 
   @GetMapping()
-  public List<Village> getAll() {
-    return villageService.findAllVillages();
+  public ResponseEntity<Village> getVillageForUser() {
+    String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    return villageService
+        .findVillageForUser(userName)
+        .map(ResponseEntity::ok)
+        .orElseGet(ResponseEntity.notFound()::build);
   }
 
   @PostMapping()

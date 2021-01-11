@@ -1,5 +1,6 @@
 package com.kuljava.swiatwsi.services;
 
+import com.kuljava.swiatwsi.security.User;
 import com.kuljava.swiatwsi.world.Village;
 import com.kuljava.swiatwsi.world.VillageRepository;
 import lombok.AllArgsConstructor;
@@ -30,5 +31,10 @@ public class VillageService {
 
   public List<Village> findAllVillages() {
     return villageRepository.findAll();
+  }
+
+
+  public Optional<Village> findVillageForUser(String userName) {
+    return villageRepository.findByusername(userName);
   }
 }

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@Table
+@Table(schema = "swiatwsi")
 @Entity
 @NoArgsConstructor
 public class Point {

@@ -1,6 +1,7 @@
 package com.kuljava.swiatwsi.world;
 
 import com.kuljava.swiatwsi.rawmaterials.RawMaterials;
+import com.kuljava.swiatwsi.security.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @ToString
-@Table(name = "villages")
+@Table(name = "village", schema = "swiatwsi")
 public class Village {
 
   @Id
@@ -29,8 +30,13 @@ public class Village {
   @OneToOne(cascade = CascadeType.ALL)
   RawMaterials rawMaterials;
 
-  public Village(String name, Point point) {
+  @OneToOne
+  private User user;
+
+  public Village(String name, Point point, RawMaterials rawMaterials, User user) {
     this.name = name;
     this.point = point;
+    this.rawMaterials = rawMaterials;
+    this.user = user;
   }
 }

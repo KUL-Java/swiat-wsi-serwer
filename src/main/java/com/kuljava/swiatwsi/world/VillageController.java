@@ -5,35 +5,38 @@ import com.kuljava.swiatwsi.services.VillageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/villages")
 public class VillageController {
 
-  private VillageService villageService;
+  private final VillageService villageService;
 
   @Autowired
   public VillageController(VillageService villageService) {
     this.villageService = villageService;
   }
 
-  @GetMapping()
-  public List<Village> getAll() {
-    return villageService.findAllVillages();
+  @GetMapping
+  public ResponseEntity<Village> getVillageForUser() {
+    String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    return villageService
+        .findVillageForUser(userName)
+        .map(ResponseEntity::ok)
+        .orElseGet(ResponseEntity.notFound()::build);
   }
 
-  @PostMapping()
-  public ResponseEntity<Village> addVillage(@RequestParam String name) {
+  @PostMapping
+  public HttpStatus addVillage(@RequestParam String name) {
     try {
-      final Optional<Village> village = villageService.saveVillage(name);
-      return village
-          .map(value -> new ResponseEntity<>(value, HttpStatus.CREATED))
-          .orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
+      String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+      villageService.saveVillageForCurrentUser(name, userName);
+      return HttpStatus.ACCEPTED;
     } catch (VillagesAmountExceededException e) {
       throw new ResponseStatusException(
           HttpStatus.SERVICE_UNAVAILABLE, "The server is full, cannot create another village", e);

@@ -1,5 +1,6 @@
 package com.kuljava.swiatwsi.security;
 
+import com.kuljava.swiatwsi.world.Village;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +13,6 @@ import javax.persistence.*;
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
   private String userName;
   private String email;
   private String password;

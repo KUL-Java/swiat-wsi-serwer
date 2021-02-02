@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-    return Optional.ofNullable(userRepository.findByUserName(userName))
+    return userRepository.findByUserName(userName)
         .map(this::convertToSecurityUser)
         .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
   }

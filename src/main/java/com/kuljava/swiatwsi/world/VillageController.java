@@ -22,7 +22,7 @@ public class VillageController {
     this.villageService = villageService;
   }
 
-  @GetMapping()
+  @GetMapping
   public ResponseEntity<Village> getVillageForUser() {
     String userName = SecurityContextHolder.getContext().getAuthentication().getName();
     return villageService
@@ -31,13 +31,12 @@ public class VillageController {
         .orElseGet(ResponseEntity.notFound()::build);
   }
 
-  @PostMapping()
-  public ResponseEntity<Village> addVillage(@RequestParam String name) {
+  @PostMapping
+  public HttpStatus addVillage(@RequestParam String name) {
     try {
-      final Optional<Village> village = villageService.saveVillage(name);
-      return village
-          .map(value -> new ResponseEntity<>(value, HttpStatus.CREATED))
-          .orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
+      String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+      villageService.saveVillageForCurrentUser(name, userName);
+      return HttpStatus.ACCEPTED;
     } catch (VillagesAmountExceededException e) {
       throw new ResponseStatusException(
           HttpStatus.SERVICE_UNAVAILABLE, "The server is full, cannot create another village", e);

@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Table(schema = "swiatwsi")
 @Setter
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class RawMaterials implements Serializable {
 
     @Id
@@ -29,5 +29,9 @@ public class RawMaterials implements Serializable {
         this.woodQuantity = woodQuantity;
         this.clayQuantity = clayQuantity;
         this.ironQuantity = ironQuantity;
+    }
+
+    public static RawMaterials empty(){
+        return new RawMaterials(0L, 0L ,0L);
     }
 }

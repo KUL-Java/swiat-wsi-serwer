@@ -31,11 +31,12 @@ public class Village {
   RawMaterials rawMaterials;
 
   @OneToOne
-  @JoinColumn(name = "username")
-  private User username;
+  private User user;
 
-  public Village(String name, Point point) {
+  public Village(String name, Point point, RawMaterials rawMaterials, User user) {
     this.name = name;
     this.point = point;
+    this.rawMaterials = rawMaterials;
+    this.user = user;
   }
 }

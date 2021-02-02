@@ -1,5 +1,7 @@
 package com.kuljava.swiatwsi.services;
 
+import com.kuljava.swiatwsi.rawmaterials.RawMaterials;
+import com.kuljava.swiatwsi.security.User;
 import com.kuljava.swiatwsi.world.Point;
 import com.kuljava.swiatwsi.world.Village;
 import com.kuljava.swiatwsi.world.VillageRepository;
@@ -27,7 +29,7 @@ public class FreeCoordinatesFinderService {
     this.occupiedCoordinates = fetchFreeCoordinatesToMemory();
   }
 
-  Village createNextVillage(String name) {
+  Village createNextVillage(String name, User user) {
     int existingVillages = occupiedCoordinates.size();
 
     if (existingVillages >= MAXIMUM_VILLAGES_AMOUNT) {
@@ -37,7 +39,7 @@ public class FreeCoordinatesFinderService {
     Point randomCoordinates = findNextFreeSpot();
     occupiedCoordinates.add(randomCoordinates);
 
-    return new Village(name, randomCoordinates);
+    return new Village(name, randomCoordinates, RawMaterials.empty(), user);
   }
 
   private Point findNextFreeSpot() {
